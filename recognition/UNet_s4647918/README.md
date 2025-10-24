@@ -1,5 +1,11 @@
 Checklist for this ReadMe
 
+Current project:
+
+"Segment the 2D OASIS brain data set with an Improved UNet with all labels having a
+ minimumDice similarity coefficient of 0.9 on the test set. "
+
+
 6 Documentation (10 Marks)
  Once your algorithm has been implemented, you will need to provide sufficient comments in your code and
  documentation of your algorithm in a README.md file.
