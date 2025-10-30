@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-from modules import ImprovedUNet, BCEDiceLoss
+from modules import ImprovedUNet, DiceLoss
 from dataset import OASIS2DDataset
 from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
@@ -11,8 +11,9 @@ from torch.utils.data import DataLoader, random_split
 # -----------------------------
 # Configuration
 # -----------------------------
-device = torch.device("cpu") #Don't have an NVIDIA Graphics card
-epochs = 1
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#Small training size as I don't have an NVIDIA Graphics card
+epochs = 10
 lr = 1e-4
 batch_size = 2
 image_dir = "C:/Users/ch2ck/OASIS_full/keras_png_slices_train"
@@ -44,7 +45,7 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0)
 # Model, Loss, Optimizer
 # -----------------------------
 model = ImprovedUNet().to(device)
-criterion = BCEDiceLoss()
+criterion = DiceLoss()
 optimizer = optim.Adam(model.parameters(), lr=lr)
 
 # -----------------------------

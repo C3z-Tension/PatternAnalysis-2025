@@ -76,14 +76,3 @@ class DiceLoss(nn.Module):
         dice = (2. * intersection + self.smooth) / (preds.sum() + targets.sum() + self.smooth)
 
         return 1 - dice
-
-
-#DiceLoss combined with BCE for stability
-class BCEDiceLoss(nn.Module):
-    def __init__(self):
-        super(BCEDiceLoss, self).__init__()
-        self.bce = nn.BCELoss()
-        self.dice = DiceLoss()
-
-    def forward(self, preds, targets):
-        return self.bce(preds, targets) + self.dice(preds, targets)
