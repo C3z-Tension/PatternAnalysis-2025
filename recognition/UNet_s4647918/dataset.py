@@ -38,7 +38,7 @@ if __name__ == "__main__":
     from torchvision import transforms
 
     transform = transforms.Compose([
-        transforms.Resize((256, 256)),
+        transforms.Resize((128, 128)),
         transforms.ToTensor()
     ])
 

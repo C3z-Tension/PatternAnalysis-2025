@@ -6,25 +6,25 @@ class ImprovedUNet(nn.Module):
         super(ImprovedUNet, self).__init__()
 
         # Encoding
-        self.enc0 = self._preact_block(1, 32)
-        self.enc1 = self._preact_block(32, 64)
-        self.enc2 = self._preact_block(64, 128)
-        self.enc3 = self._preact_block(128, 256)
+        self.enc0 = self._preact_block(1, 16)
+        self.enc1 = self._preact_block(16, 32)
+        self.enc2 = self._preact_block(32, 64)
+        self.enc3 = self._preact_block(64, 128)
 
         self.pool = nn.MaxPool2d(2)
 
         # Decoding (upsample + conv after skip)
-        self.up3 = nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2)
-        self.conv3 = self._preact_block(256, 128)  # 128 upsampled + 128 skip
+        self.up3 = nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2)
+        self.conv3 = self._preact_block(128, 64)  # 64 upsampled + 64 skip
 
-        self.up2 = nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2)
-        self.conv2 = self._preact_block(128, 64)   # 64 upsampled + 64 skip
+        self.up2 = nn.ConvTranspose2d(64, 32, kernel_size=2, stride=2)
+        self.conv2 = self._preact_block(64, 32)   # 32 upsampled + 32 skip
 
-        self.up1 = nn.ConvTranspose2d(64, 32, kernel_size=2, stride=2)
-        self.conv1 = self._preact_block(64, 32)    # 32 upsampled + 32 skip
+        self.up1 = nn.ConvTranspose2d(32, 16, kernel_size=2, stride=2)
+        self.conv1 = self._preact_block(32, 16)    # 16 upsampled + 16 skip
 
         # Final output layer
-        self.final = nn.Conv2d(32, 1, kernel_size=1)
+        self.final = nn.Conv2d(16, 1, kernel_size=1)
 
     def _preact_block(self, in_ch, out_ch, dropout_p=0.2):
         return nn.Sequential(
