@@ -26,6 +26,7 @@ class ImprovedUNet(nn.Module):
         # Final output layer
         self.final = nn.Conv2d(16, 1, kernel_size=1)
 
+    #Preactivation block that nomralises and activates before convolution
     def _preact_block(self, in_ch, out_ch, dropout_p=0.2):
         return nn.Sequential(
             nn.InstanceNorm2d(in_ch),

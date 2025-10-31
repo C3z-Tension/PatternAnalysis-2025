@@ -8,6 +8,12 @@ from dataset import OASIS2DDataset
 from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 
+import os
+
+# Base directory (can be set via environment variable or config file)
+base_dir = os.getenv("OASIS_DATA_DIR", "./OASIS_full")
+
+
 # -----------------------------
 # Configuration
 # -----------------------------
@@ -16,9 +22,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 epochs = 10
 lr = 1e-4
 batch_size = 2
-image_dir = "C:/Users/ch2ck/OASIS_full/keras_png_slices_train"
-mask_dir = "C:/Users/ch2ck/OASIS_full/keras_png_slices_seg_train"
-save_path = "C:/Users/ch2ck/OASIS_full/improved_unet.pth"
+image_dir = os.path.join(base_dir, "keras_png_slices_train")
+mask_dir = os.path.join(base_dir, "keras_png_slices_seg_train")
+save_path = os.path.join(base_dir, "improved_unet.pth")
 
 # -----------------------------
 # Transforms
@@ -36,6 +42,7 @@ train_size = int(0.7 * len(full_dataset))
 val_size = int(0.2 * len(full_dataset))
 test_size = len(full_dataset) - train_size - val_size
 
+#Split into desired sizes and allocate to prevent data leakage
 train_dataset, val_dataset, test_dataset = random_split(full_dataset, [train_size, val_size, test_size])
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
 val_loader = DataLoader(val_dataset, batch_size=batch_size, num_workers=0)
