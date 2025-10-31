@@ -8,8 +8,6 @@ from dataset import OASIS2DDataset
 from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 
-import os
-
 # Base directory (can be set via environment variable or config file)
 base_dir = os.getenv("OASIS_DATA_DIR", "./OASIS_full")
 
